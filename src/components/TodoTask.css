@@ -1,0 +1,21 @@
+.TodoTask {
+  display: flex;
+}
+
+#task-name {
+  padding: 1rem;
+  margin: 0.25rem;
+  border: 1px solid green;
+  border-radius: 2rem;
+}
+
+#delete-button {
+  border-radius: 2rem;
+  padding: 1rem;
+  margin: 0.25rem;
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}

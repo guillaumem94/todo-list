@@ -1,26 +1,65 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// Imports
+import "./App.css";
+import { FC, ChangeEvent, useState } from "react";
+import { ITask } from "./Interfaces";
+import { TodoTask } from "./components/TodoTask";
 
-function App() {
+// Component
+export const App: FC = () => {
+  // State for managing user input
+  const [task, setTask] = useState<string>("");
+  // State for managing todo list
+  const [todoList, setTodoList] = useState<ITask[]>([]);
+
+  // Update user input while they type
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setTask(e.target.value);
+  };
+
+  // Add new item to list
+  const addTask = (): void => {
+    const newTask = { taskName: task };
+
+    if (task) {
+      setTodoList([...todoList, newTask]);
+      setTask("");
+    }
+  };
+
+  // Delete item from list
+  const handleDelete = (itemToDelete: string): void => {
+    setTodoList(
+      todoList.filter((item) => {
+        return item.taskName !== itemToDelete;
+      })
+    );
+  };
+
+  // Return statement
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="task">
+        {/* User input */}
+        <input
+          id="new-task"
+          type="text"
+          placeholder="Task..."
+          value={task}
+          onChange={handleChange}
+        />
+
+        {/* Button to add item */}
+        <button id="add-task" onClick={addTask}>
+          Add task
+        </button>
+      </div>
+
+      <div className="todoList">
+        {/* Display all items */}
+        {todoList.map((task: ITask, key: number) => {
+          return <TodoTask task={task} key={key} handleDelete={handleDelete} />;
+        })}
+      </div>
     </div>
   );
-}
-
-export default App;
+};
